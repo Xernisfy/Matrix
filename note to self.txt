@@ -1,0 +1,3 @@
+Oben und unten gradients einbauen
+Body-Background = black
+canvas kann dann kleiner sein

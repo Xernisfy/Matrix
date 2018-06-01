@@ -5,8 +5,8 @@
     let last = 0;
     const canvas = document.createElement('canvas');
     document.body.appendChild(canvas);
-    canvas.width = 1920;//innerWidth - 0;
-    canvas.height = 1080;//innerHeight - 4;
+    canvas.width = 1910;//innerWidth - 0;
+    canvas.height = 1073;//innerHeight - 4;
     const c = canvas.getContext('2d');
     function random(min, max) {
       return Math.round(Math.random() * (max- min)) + min;
@@ -38,7 +38,6 @@
     function draw(t) {
       t = Math.floor(t);
       let progress = t - last;
-      console.log(progress);
       if (progress > 100) {
         clear();
         new Symbol(random(0, innerWidth), random(0, innerHeight)).change();
