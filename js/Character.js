@@ -3,23 +3,27 @@ class Character {
     this.x = x;
     this.y = y;
     this.line = line;
+    this.c = line.c;
     this.symbol = this.setRandomSymbol();
-    this.color = config.stColor;
+    this.color = mapColor(config.stColor);
     setTimeout(this.change, random(0, 10000));
     this.speed = random(100, 200);
+    this.draw();
   }
-  set color(color) {
+  setColor(color) {
     this.color = color;
   }
   draw() {
-    c.fillStyle = this.color;
-    c.font = config.size + ' ' + config.font;
-    c.shadowColor = this.color;
-    c.shadowBlur = config.charBlur;
-    c.fillText(this.symbol, this.x, this.y);
+    this.c.save();
+    this.c.fillStyle = this.color;
+    this.c.font = config.size + 'px ' + config.font;
+    this.c.shadowColor = this.color;
+    this.c.shadowBlur = config.charBlur;
+    this.c.fillText(this.symbol, this.x, this.y);
+    this.c.restore();
   }
   setRandomSymbol() {
-    this.symbol = String.fromCharCode(0x30A0 + random(0, 96));
+    return String.fromCharCode(0x30A0 + random(0, 96));
   }
   change() {
 
@@ -34,6 +38,6 @@ class Character {
       this.list.remove(this);
     } else {
       this.color = hexCode;
-    }  
+    }
   }
 }

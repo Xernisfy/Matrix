@@ -6,7 +6,9 @@
     const canvas = document.createElement('canvas');
     body.appendChild(canvas);
     const c = canvas.getContext('2d');
+    window.c = c;
     let lines = [];
+    window.lines = lines;
     if (config.showFps) {
       fps.toggle();
     }
@@ -42,15 +44,26 @@
     }
     resize();
     onresize = resize;
+    for (let i = 0; i < 1; i++) {
+      lines.push(new Line(c, random(0, canvas.width), 5, 5));
+    }
+    canvas.addEventListener('click', () => {
+      lines.pop();
+      lines.push(new Line(c, random(0, canvas.width), 5, 5));
+    });
     // loop
     function draw() {
       // main background
       c.fillStyle = mapColor(config.bgColor);
       c.fillRect(0, 0, canvas.width, canvas.height);
-      for (let i = 0; i < 10; i++) {
-        lines.push(new Line());
+      // draw the characters
+      lines.forEach((line) => {
+        line.draw();
+      });
+      // add new line
+      if (false) {
+        lines.push(new Line(c, random(100, 500), 5, 5));
       }
-
 
 
 
