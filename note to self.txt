@@ -1,5 +1,0 @@
-Oben und unten gradients einbauen
-Body-Background = black
-canvas kann dann kleiner sein
-
-https://store.steampowered.com/app/431960/Wallpaper_Engine/

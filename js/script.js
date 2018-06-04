@@ -1,48 +1,72 @@
 (function () {
-  'use strict';
   document.addEventListener('DOMContentLoaded', function () {
-    // setup
-    let last = 0;
+    //setup
+    const html = document.documentElement;
+    const body = document.body;
     const canvas = document.createElement('canvas');
-    document.body.appendChild(canvas);
-    canvas.width = 1910;//innerWidth - 0;
-    canvas.height = 1073;//innerHeight - 4;
+    body.appendChild(canvas);
     const c = canvas.getContext('2d');
-    function random(min, max) {
-      return Math.round(Math.random() * (max- min)) + min;
+    let lines = [];
+    if (config.showFps) {
+      fps.toggle();
     }
-    function clear() {
-      c.fillStyle = '#000000';
-      c.fillRect(0, 0, canvas.width, canvas.height);
+    function resize() {
+      styleOnResize(html, body, canvas);
     }
-    function Symbol(x, y, speed) {
-      this.x = x;
-      this.y = y;
-      this.speed = speed;
-      this.change = () => {
-        c.fillStyle = '#00ff2f';
-        c.font = '100pt Arial';
-        c.shadowColor = '#00ff3f';
-        c.shadowBlur = 10;
-        c.fillText(String.fromCharCode(0x30A0 + random(0, 96)), this.x, this.y);
-      };
-      this.render = () => {
-
-      };
-    }
-    (function drawLoop(timestamp) {
-      draw(timestamp);
-      requestAnimationFrame(drawLoop);
-    })();
-    // loop
-    function draw(t) {
-      t = Math.floor(t);
-      let progress = t - last;
-      if (progress > 100) {
-        clear();
-        new Symbol(random(0, innerWidth), random(0, innerHeight)).change();
-        last = t;
+    function gradients() {
+      const coors = [
+        [
+          [canvas.width, 0, canvas.width - config.edgeBlur, 0],
+          [canvas.width - config.edgeBlur, 0, config.edgeBlur, canvas.height]
+        ],
+        [
+          [0, canvas.height, 0, canvas.height - config.edgeBlur],
+          [0, canvas.height - config.edgeBlur, canvas.width, config.edgeBlur]
+        ],
+        [
+          [0, 0, config.edgeBlur, 0],
+          [0, 0, config.edgeBlur, canvas.height]
+        ],
+        [
+          [0, 0, 0, config.edgeBlur],
+          [0, 0, canvas.width, config.edgeBlur]
+        ]
+      ];
+      for (const coor of coors) {
+        let gradient = c.createLinearGradient.apply(c, coor[0]);
+        gradient.addColorStop(0, mapColor(config.bgColor));
+        gradient.addColorStop(1, mapColor(config.bgColor) + '00');
+        c.fillStyle = gradient;
+        c.fillRect.apply(c, coor[1]);
       }
     }
+    resize();
+    onresize = resize;
+    // loop
+    function draw() {
+      // main background
+      c.fillStyle = mapColor(config.bgColor);
+      c.fillRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < 10; i++) {
+        lines.push(new Line());
+      }
+
+
+
+
+
+      // border gradients for blur effect
+      gradients();
+    }
+    (function drawLoop(timestamp) {
+      draw();
+      fps.calc(timestamp);
+      requestAnimationFrame(drawLoop);
+    })();
   });
+  window.wallpaperPropertyListener = {
+    applyUserProperties: (properties) => {
+      const event = new CustomEvent('propertyChange', properties);
+    }
+  };
 })();
