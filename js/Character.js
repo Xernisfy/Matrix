@@ -14,13 +14,12 @@ class Character {
     this.color = color;
   }
   draw() {
-    this.c.save();
+    console.log('test')
     this.c.fillStyle = this.color;
     this.c.font = config.size + 'px ' + config.font;
-    this.c.shadowColor = this.color;
-    this.c.shadowBlur = config.charBlur;
+    //this.c.shadowColor = this.color;
+    //this.c.shadowBlur = config.charBlur;
     this.c.fillText(this.symbol, this.x, this.y);
-    this.c.restore();
   }
   setRandomSymbol() {
     return String.fromCharCode(0x30A0 + random(0, 96));

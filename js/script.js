@@ -45,11 +45,12 @@
     resize();
     onresize = resize;
     for (let i = 0; i < 1; i++) {
-      lines.push(new Line(c, random(0, canvas.width), 5, 5));
+      lines.push(new Line(c, 5, 20));
     }
     canvas.addEventListener('click', () => {
-      lines.pop();
-      lines.push(new Line(c, random(0, canvas.width), 5, 5));
+      //lines.pop();
+      console.log(lines);
+      lines.push(new Line(c, 5, 5));
     });
     // loop
     function draw() {
@@ -62,7 +63,7 @@
       });
       // add new line
       if (false) {
-        lines.push(new Line(c, random(100, 500), 5, 5));
+        lines.push(new Line(c, 5, 20));
       }
 
 
@@ -74,7 +75,8 @@
     (function drawLoop(timestamp) {
       draw();
       fps.calc(timestamp);
-      requestAnimationFrame(drawLoop);
+      //requestAnimationFrame(drawLoop);
+      setTimeout(drawLoop, 1);
     })();
   });
   window.wallpaperPropertyListener = {
