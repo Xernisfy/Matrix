@@ -14,7 +14,6 @@ class Character {
     this.color = color;
   }
   draw() {
-    console.log('test')
     this.c.fillStyle = this.color;
     this.c.font = config.size + 'px ' + config.font;
     //this.c.shadowColor = this.color;
@@ -22,7 +21,7 @@ class Character {
     this.c.fillText(this.symbol, this.x, this.y);
   }
   setRandomSymbol() {
-    return String.fromCharCode(0x30A0 + random(0, 96));
+    return String.fromCharCode(0x30A0 + random(0, 95));
   }
   change() {
 
