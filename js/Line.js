@@ -3,6 +3,7 @@ class Line {
     this.c = c;
     this.x = Math.floor(random(0, this.c.canvas.width - config.size) / config.size) * config.size;
     this.y = 0;
+    this.delete = false;
     this.speed = speed;
     this.length = length;
     this.characters = [];
@@ -15,13 +16,17 @@ class Line {
       character.draw();
     });
     this.c.restore();
-    console.log(this.count + ' - ' + this.speed)
     this.y += config.size;
-    if ((this.y - (this.characters.length * config.size)) < this.c.canvas.height) {
+    if (this.y < this.c.canvas.height + config.size) {
       this.characters.push(new Character(this.x, this.y, this));
-    } else {
-      lines.shift();
-      lines.push(new Line(this.c, 5, 20));
+    } else if (this.y > 0) {
+      this.characters.shift();
+      if (this.characters.length === 0) {
+        this.delete = true;
+        if (lines.length < config.maxLines) {
+          lines.push(new Line(this.c, 5, random(5, 20)));
+        }
+      }
     }
     if (this.characters.length > this.length) {
       this.characters.shift();
@@ -29,4 +34,3 @@ class Line {
     //this.characters[0].fadeOut();
   }
 }
-

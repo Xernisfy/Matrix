@@ -3,6 +3,7 @@
     //setup
     const html = document.documentElement;
     const body = document.body;
+    body.style.backgroundColor = '#000000';
     const canvas = document.createElement('canvas');
     body.appendChild(canvas);
     const c = canvas.getContext('2d');
@@ -44,13 +45,12 @@
     }
     resize();
     onresize = resize;
-    for (let i = 0; i < 1; i++) {
-      lines.push(new Line(c, 5, 20));
+    for (let i = 0; i < config.maxLines; i++) {
+      lines.push(new Line(c, 5, random(5, 20)));
     }
     canvas.addEventListener('click', () => {
       //lines.pop();
-      console.log(lines);
-      lines.push(new Line(c, 5, 5));
+      lines.push(new Line(c, 5, random(5, 20)));
     });
     // loop
     function draw() {
@@ -58,17 +58,13 @@
       c.fillStyle = mapColor(config.bgColor);
       c.fillRect(0, 0, canvas.width, canvas.height);
       // draw the characters
-      lines.forEach((line) => {
-        line.draw();
-      });
-      // add new line
-      if (false) {
-        lines.push(new Line(c, 5, 20));
+      for (let i = 0; i < lines.length; i++) {
+        lines[i].draw();
+        if (lines[i].delete) {
+          lines.splice(lines.indexOf(lines[i]), 1)
+          i--;
+        }
       }
-
-
-
-
       // border gradients for blur effect
       gradients();
     }
