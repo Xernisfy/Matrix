@@ -20,7 +20,7 @@ class Line {
     if (this.y < this.c.canvas.height + config.size) {
       this.characters.push(new Character(this.x, this.y, this));
     } else if (this.y > 0) {
-      this.characters.shift();
+      this.removeFirst();
       if (this.characters.length === 0) {
         this.delete = true;
         if (lines.length < config.maxLines) {
@@ -29,8 +29,15 @@ class Line {
       }
     }
     if (this.characters.length > this.length) {
-      this.characters.shift();
+      this.removeFirst();
     }
     //this.characters[0].fadeOut();
+  }
+  removeFirst() {
+    const first = this.characters[0];
+    if (first.symbol === 'M' || first.symbol === 'F' || first.symbol === 'C') {
+      solo.push(new Character(first.x, first.y, this, first.symbol));
+    }
+    this.characters.shift();
   }
 }

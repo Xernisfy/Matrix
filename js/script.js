@@ -10,6 +10,8 @@
     window.c = c;
     let lines = [];
     window.lines = lines;
+    let solo = [];
+    window.solo = solo;
     if (config.showFps) {
       fps.toggle();
     }
@@ -65,6 +67,16 @@
           i--;
         }
       }
+      c.save();
+      solo.forEach((character) => {
+        if (solo.length > config.maxLines * 4) {
+          solo.shift();
+        } else {
+          character.setColor(mapColor('1 0.5 0'));
+          character.draw();
+        }
+      });
+      c.restore();
       // border gradients for blur effect
       gradients();
     }
@@ -72,7 +84,7 @@
       draw();
       fps.calc(timestamp);
       //requestAnimationFrame(drawLoop);
-      setTimeout(drawLoop, 1);
+      setTimeout(drawLoop, 1000 / (config.speed || 1));
     })();
   });
   window.wallpaperPropertyListener = {

@@ -4,10 +4,11 @@ const config = {
   stColor: '0.9 1 0.9',
   characterSets: [[0x30, 0x39], [0x30a0, 0x30ff, 'mirror']],
   changeFreq: 100,
-  font: 'Wingdings',
+  font: 'Consolas',
   size: 40,
-  edgeBlur: 16,
+  edgeBlur: 160,
   charBlur: 10,
   showFps: false,
-  maxLines: 20
+  maxLines: 20,
+  speed: 50
 };

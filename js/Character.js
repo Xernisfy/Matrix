@@ -1,10 +1,10 @@
 class Character {
-  constructor(x, y, line) {
+  constructor(x, y, line, symbol) {
     this.x = x;
     this.y = y;
     this.line = line;
     this.c = line.c;
-    this.symbol = this.setRandomSymbol();
+    this.symbol = symbol || this.setRandomSymbol();
     this.color = mapColor(config.stColor);
     setTimeout(this.change, random(0, 10000));
     this.speed = random(100, 200);
@@ -21,7 +21,10 @@ class Character {
     this.c.fillText(this.symbol, this.x, this.y);
   }
   setRandomSymbol() {
-    return String.fromCharCode(0x30A0 + random(0, 95));
+    //return String.fromCharCode(0x30A0 + random(0, 95)); // Katakana
+    return String.fromCharCode(0x0041 + random(0, 25)); // Latin
+    //return String.fromCharCode(0x2800 + random(0, 255)); // Braille
+    //return String.fromCharCode(0x16A0 + random(0, 80)); // ???
   }
   change() {
 
