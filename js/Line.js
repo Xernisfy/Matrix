@@ -1,13 +1,20 @@
 class Line {
-  constructor(c, speed, length) {
+  constructor(c) {
     this.c = c;
     this.x = Math.floor(random(0, this.c.canvas.width - config.size) / config.size) * config.size;
     this.y = 0;
     this.delete = false;
-    this.speed = speed;
-    this.length = length;
+    this.speed = random(1, config.maxLineSpeed);
+    this.length = random(config.minLineLength, config.maxLineLength);
     this.characters = [];
     this.characters.push(new Character(this.x, this.y, this));
+  }
+  relativeSize() {
+    if (config.parallax) {
+      return config.size * (this.speed / config.maxLineSpeed);
+    } else {
+      return config.size;
+    }
   }
   draw() {
     this.c.save();
@@ -16,15 +23,20 @@ class Line {
       character.draw();
     });
     this.c.restore();
-    this.y += config.size;
+    this.y += this.relativeSize();
     if (this.y < this.c.canvas.height + config.size) {
+      for (let i = 0; i < solo.length; i++) {
+        if (solo[i].x === this.x && solo[i].y === this.y) {
+          solo.splice(i, 1);
+        }
+      }
       this.characters.push(new Character(this.x, this.y, this));
     } else if (this.y > 0) {
       this.removeFirst();
       if (this.characters.length === 0) {
         this.delete = true;
         if (lines.length < config.maxLines) {
-          lines.push(new Line(this.c, 5, random(5, 20)));
+          lines.push(new Line(this.c));
         }
       }
     }
@@ -35,9 +47,12 @@ class Line {
   }
   removeFirst() {
     const first = this.characters[0];
-    if (first.symbol === 'M' || first.symbol === 'F' || first.symbol === 'C') {
-      solo.push(new Character(first.x, first.y, this, first.symbol));
+    if (first === undefined) {
+      console.log(this)
     }
+    //if (first.symbol === 'M' || first.symbol === 'F' || first.symbol === 'C') {
+    //  solo.push(new Character(first.x, first.y, this, first.symbol));
+    //}
     this.characters.shift();
   }
 }

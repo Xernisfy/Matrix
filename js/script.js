@@ -17,6 +17,7 @@
     }
     function resize() {
       styleOnResize(html, body, canvas);
+      solo.splice(1, 999999);
     }
     function gradients() {
       const coors = [
@@ -48,11 +49,11 @@
     resize();
     onresize = resize;
     for (let i = 0; i < config.maxLines; i++) {
-      lines.push(new Line(c, 5, random(5, 20)));
+      lines.push(new Line(c));
     }
     canvas.addEventListener('click', () => {
       //lines.pop();
-      lines.push(new Line(c, 5, random(5, 20)));
+      lines.push(new Line(c));
     });
     // loop
     function draw() {
@@ -61,15 +62,19 @@
       c.fillRect(0, 0, canvas.width, canvas.height);
       // draw the characters
       for (let i = 0; i < lines.length; i++) {
-        lines[i].draw();
-        if (lines[i].delete) {
-          lines.splice(lines.indexOf(lines[i]), 1)
-          i--;
+        for (let j = 0; j < lines[i].speed; j++) {
+          if (lines[i].delete) {
+            lines.splice(lines.indexOf(lines[i]), 1)
+            i--;
+            break;
+          } else {
+            lines[i].draw();
+          }
         }
       }
       c.save();
       solo.forEach((character) => {
-        if (solo.length > config.maxLines * 4) {
+        if (solo.length > 500) {
           solo.shift();
         } else {
           character.setColor(mapColor('1 0.5 0'));

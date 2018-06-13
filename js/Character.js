@@ -7,15 +7,21 @@ class Character {
     this.symbol = symbol || this.setRandomSymbol();
     this.color = mapColor(config.stColor);
     setTimeout(this.change, random(0, 10000));
-    this.speed = random(100, 200);
     this.draw();
   }
   setColor(color) {
     this.color = color;
   }
+  relativeSize() {
+    if (config.parallax) {
+      return config.size * (this.line.speed / config.maxLineSpeed);
+    } else {
+      return config.size;
+    }
+  }
   draw() {
     this.c.fillStyle = this.color;
-    this.c.font = config.size + 'px ' + config.font;
+    this.c.font = this.relativeSize() + 'px ' + config.font;
     //this.c.shadowColor = this.color;
     //this.c.shadowBlur = config.charBlur;
     this.c.fillText(this.symbol, this.x, this.y);
@@ -25,6 +31,7 @@ class Character {
     return String.fromCharCode(0x0041 + random(0, 25)); // Latin
     //return String.fromCharCode(0x2800 + random(0, 255)); // Braille
     //return String.fromCharCode(0x16A0 + random(0, 80)); // ???
+    //return ['M', 'F', 'C'][random(0, 2)]; // MFC
   }
   change() {
 
