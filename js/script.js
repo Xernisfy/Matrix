@@ -3,11 +3,14 @@
     //setup
     const html = document.documentElement;
     const body = document.body;
-    body.style.backgroundColor = '#000000';
+    body.style.backgroundColor = mapColor(config.bgColor);
     const canvas = document.createElement('canvas');
     body.appendChild(canvas);
     const c = canvas.getContext('2d');
     window.c = c;
+    const vignette = document.createElement('canvas');
+    body.appendChild(vignette);
+    const v = vignette.getContext('2d');
     let lines = [];
     window.lines = lines;
     let solo = [];
@@ -16,26 +19,27 @@
       fps.toggle();
     }
     function resize() {
-      styleOnResize(html, body, canvas);
+      styleOnResize(html, body, [canvas, vignette]);
       solo.splice(1, 999999);
+      gradients();
     }
     function gradients() {
       const coors = [
         [
-          [canvas.width, 0, canvas.width - config.edgeBlur, 0],
-          [canvas.width - config.edgeBlur, 0, config.edgeBlur, canvas.height]
+          [vignette.width, 0, vignette.width - config.edgeBlur, 0],
+          [vignette.width - config.edgeBlur, 0, config.edgeBlur, vignette.height]
         ],
         [
-          [0, canvas.height, 0, canvas.height - config.edgeBlur],
-          [0, canvas.height - config.edgeBlur, canvas.width, config.edgeBlur]
+          [0, vignette.height, 0, vignette.height - config.edgeBlur],
+          [0, vignette.height - config.edgeBlur, vignette.width, config.edgeBlur]
         ],
         [
           [0, 0, config.edgeBlur, 0],
-          [0, 0, config.edgeBlur, canvas.height]
+          [0, 0, config.edgeBlur, vignette.height]
         ],
         [
           [0, 0, 0, config.edgeBlur],
-          [0, 0, canvas.width, config.edgeBlur]
+          [0, 0, vignette.width, config.edgeBlur]
         ]
       ];
       for (const coor of coors) {
@@ -58,7 +62,7 @@
     // loop
     function draw() {
       // main background
-      c.fillStyle = mapColor(config.bgColor);
+      c.fillStyle = mapColor(config.bgColor) + '10';
       c.fillRect(0, 0, canvas.width, canvas.height);
       // draw the characters
       for (let i = 0; i < lines.length; i++) {
@@ -82,8 +86,6 @@
         }
       });
       c.restore();
-      // border gradients for blur effect
-      gradients();
     }
     (function drawLoop(timestamp) {
       draw();

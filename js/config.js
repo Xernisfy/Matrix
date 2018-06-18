@@ -10,9 +10,9 @@ const config = {
   charBlur: 10,
   showFps: false,
   parallax: true,
-  maxLines: 40,
-  maxLineSpeed: 2,
+  maxLines: 30,
+  maxLineSpeed: 10,
   minLineLength: 5,
   maxLineLength: 20,
-  speed: 400
+  speed: 1000
 };

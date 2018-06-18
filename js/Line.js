@@ -9,14 +9,14 @@ class Line {
     this.characters = [];
     this.characters.push(new Character(this.x, this.y, this));
   }
-  relativeSize() {
+  relativeSize() { // determine relative size to speed when parallax is active
     if (config.parallax) {
       return config.size * (this.speed / config.maxLineSpeed);
     } else {
       return config.size;
     }
   }
-  draw() {
+  draw() { // draw character on canvas
     this.c.save();
     this.characters.forEach((character) => {
       character.setColor(mapColor(config.fgColor));
@@ -50,9 +50,9 @@ class Line {
     if (first === undefined) {
       console.log(this)
     }
-    //if (first.symbol === 'M' || first.symbol === 'F' || first.symbol === 'C') {
-    //  solo.push(new Character(first.x, first.y, this, first.symbol));
-    //}
+    /*if (first.y === 300 && ((first.x === 4 * config.size && first.symbol === 'M') || (first.x === 8 * config.size && first.symbol === 'F') || (first.x === 12 * config.size && first.symbol === 'C'))) {
+      solo.push(new Character(first.x, first.y, this, first.symbol));
+    }*/
     this.characters.shift();
   }
 }

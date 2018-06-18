@@ -15,7 +15,7 @@ function random(min, max) {
   return Math.round(Math.random() * (max - min)) + min;
 }
 
-function styleOnResize(html, body, canvas) {
+function styleOnResize(html, body, canvases) {
   s(html, {
     style: {
       height: '100%',
@@ -30,9 +30,11 @@ function styleOnResize(html, body, canvas) {
       margin: '0px'
     }
   });
-  s(canvas, {
-    height: window.innerHeight,
-    width: window.innerWidth
+  canvases.forEach(canvas => {
+    s(canvas, {
+      height: window.innerHeight,
+      width: window.innerWidth
+    });
   });
 }
 
