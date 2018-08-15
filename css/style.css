@@ -1,0 +1,6 @@
+@font-face {
+  font-family: 'Hacked';
+  font-style: normal;
+  font-weight: normal;
+  src: local('HACKED'), url('../woff/HACKED.woff') format('woff');
+}

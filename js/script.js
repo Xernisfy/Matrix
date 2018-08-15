@@ -64,6 +64,14 @@
       // main background
       c.fillStyle = mapColor(config.bgColor) + '10';
       c.fillRect(0, 0, canvas.width, canvas.height);
+      // draw the main text in the center
+      c.save();
+      c.font = window.innerWidth / (config.centerText.length * (1 - 0.5 * config.centerSize) || 1) + 'px ' + config.centerFont;
+      c.textAlign = 'center';
+      c.textBaseline = 'middle';
+      c.fillStyle = mapColor(config.centerColor);
+      c.fillText(config.centerText, window.innerWidth / 2, window.innerHeight / 2);
+      c.restore();
       // draw the characters
       for (let i = 0; i < lines.length; i++) {
         for (let j = 0; j < lines[i].speed; j++) {
@@ -76,6 +84,7 @@
           }
         }
       }
+      // draw the hidden characters
       c.save();
       solo.forEach((character) => {
         if (solo.length > 500) {

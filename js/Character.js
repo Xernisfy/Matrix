@@ -24,6 +24,7 @@ class Character {
     this.c.font = this.relativeSize() + 'px ' + config.font;
     //this.c.shadowColor = this.color;
     //this.c.shadowBlur = config.charBlur;
+    this.c.textAlign = 'center';
     this.c.fillText(this.symbol, this.x, this.y);
   }
   setRandomSymbol() {
@@ -32,6 +33,7 @@ class Character {
     //return String.fromCharCode(0x2800 + random(0, 255)); // Braille
     //return String.fromCharCode(0x16A0 + random(0, 80)); // ???
     //return ['M', 'F', 'C'][random(0, 2)]; // MFC
+    //return ['H', 'O', 'L', 'O', 'D', 'E', 'C', 'K'][random(0, 7)]; // HOLODECK
   }
   change() {
 
