@@ -28,12 +28,12 @@ class Character {
     this.c.fillText(this.symbol, this.x, this.y);
   }
   setRandomSymbol() {
-    return String.fromCharCode(0x30A0 + random(0, 95)); // Katakana
+    //return String.fromCharCode(0x30A0 + random(0, 95)); // Katakana
     //return String.fromCharCode(0x0041 + random(0, 25)); // Latin
     //return String.fromCharCode(0x2800 + random(0, 255)); // Braille
     //return String.fromCharCode(0x16A0 + random(0, 80)); // ???
     //return ['M', 'F', 'C'][random(0, 2)]; // MFC
-    //return ['H', 'O', 'L', 'O', 'D', 'E', 'C', 'K'][random(0, 7)]; // HOLODECK
+    return ['H', 'O', 'L', 'O', 'D', 'E', 'C', 'K'][random(0, 7)]; // HOLODECK
   }
   change() {
 
