@@ -1,3 +1,7 @@
+function decide(s, c, d) {
+  return s[c] || s[d] || d;
+}
+
 function s(o, s) {
   function t(p, v) {
     for (let k in v) {
