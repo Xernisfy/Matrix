@@ -10,7 +10,7 @@ const defaultConfig = {
   centerFont: 'Hacked, sans-serif',
   centerColor: '0 0.75 0',
   centerSize: 1,
-  ghostText: 'Ghost!',
+  ghostText: '',
   ghostFont: 'sans-serif',
   ghostColor: '1 0 0',
   ghostSize: 1,
