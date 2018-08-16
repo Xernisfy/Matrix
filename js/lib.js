@@ -3,7 +3,6 @@ function charArray(start, length) {
   for (let i = 0; i < length; i++) {
     charArray.push(String.fromCharCode(start + i));
   }
-  console.log(charArray);
   return charArray;
 }
 

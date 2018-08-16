@@ -3,7 +3,7 @@ const defaultConfig = {
   bgColor: '0 0 0',
   stColor: '0.9 1 0.9',
   chars: 'katakana',
-  randomChars: 'true',
+  randomChars: true,
   font: 'Consolas',
   centerText: '',
   centerFont: 'Hacked, sans-serif',

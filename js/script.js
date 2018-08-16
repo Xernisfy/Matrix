@@ -5,7 +5,19 @@
       let urlParms = location.href.match(/\?.*/)[0].substring(1).split('&');
       for (const urlParm of urlParms) {
         let tmp = urlParm.split('=');
-        config[tmp[0]] = tmp[1];
+        let value = undefined;
+        if (tmp[1] === 'true') {
+          value = true;
+        } else if (tmp[1] === 'false') {
+          value = false;
+        } else if (tmp[1].includes('%')) {
+          value = decodeURIComponent(tmp[1]);
+        } else if (parseInt(tmp[1])) {
+          value = parseInt(tmp[1]);
+        } else {
+          value = tmp[1];
+        }
+        config[tmp[0]] = value;
       }
     }
     //setup

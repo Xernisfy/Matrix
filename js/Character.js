@@ -40,7 +40,7 @@ class Character {
     }, config.chars, 'katakana');
   }
   getSymbolByIndex(chars) {
-    if (config.randomChars === 'false') {
+    if (!config.randomChars) {
       return chars[this.line.symbolIndex % chars.length];
     } else {
       return chars[random(0, chars.length - 1)];
