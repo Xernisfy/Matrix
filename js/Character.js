@@ -1,10 +1,10 @@
 class Character {
-  constructor(x, y, line, symbol) {
+  constructor(x, y, line) {
     this.x = x;
     this.y = y;
     this.line = line;
     this.c = line.c;
-    this.symbol = symbol || this.setRandomSymbol();
+    this.symbol = this.setSymbol();
     this.color = mapColor(config.stColor);
     setTimeout(this.change, random(0, 10000));
     this.draw();
@@ -22,23 +22,29 @@ class Character {
   draw() {
     this.c.fillStyle = this.color;
     this.c.font = this.relativeSize() + 'px ' + config.font;
-    //this.c.shadowColor = this.color;
-    //this.c.shadowBlur = config.charBlur;
+    if (config.charBlur > 0) {
+      this.c.shadowColor = this.color;
+      this.c.shadowBlur = config.charBlur;
+    }
     this.c.textAlign = 'center';
     this.c.fillText(this.symbol, this.x, this.y);
   }
-  setRandomSymbol() {
+  setSymbol() {
     return decide({
-      'katakana': String.fromCharCode(0x30A0 + random(0, 95)),
-      'latin': String.fromCharCode(0x0041 + random(0, 25)),
-      'braille': String.fromCharCode(0x2800 + random(0, 255)),
-      'weird': String.fromCharCode(0x16A0 + random(0, 80)),
-      'mfc': ['M', 'F', 'C'][random(0, 2)],
-      'holodeck': ['H', 'O', 'L', 'O', 'D', 'E', 'C', 'K'][random(0, 7)],
-    }, urlParms['chars'], 'latin');
+      'latin': this.getSymbolByIndex(window.latin),
+      'weird': this.getSymbolByIndex(window.weird),
+      'braille': this.getSymbolByIndex(window.braille),
+      'katakana': this.getSymbolByIndex(window.katakana),
+      'mfc': this.getSymbolByIndex(['M', 'F', 'C']),
+      'holodeck': this.getSymbolByIndex(['H', 'O', 'L', 'O', 'D', 'E', 'C', 'K']),
+    }, config.chars, 'katakana');
   }
-  change() {
-
+  getSymbolByIndex(chars) {
+    if (config.randomChars === 'false') {
+      return chars[this.line.symbolIndex % chars.length];
+    } else {
+      return chars[random(0, chars.length - 1)];
+    }
   }
   fadeOut() {
     let hexCode = '#';

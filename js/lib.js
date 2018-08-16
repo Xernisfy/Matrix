@@ -1,3 +1,17 @@
+function charArray(start, length) {
+  let charArray = [];
+  for (let i = 0; i < length; i++) {
+    charArray.push(String.fromCharCode(start + i));
+  }
+  console.log(charArray);
+  return charArray;
+}
+
+window.latin = charArray(0x0041, 26);
+window.weird = charArray(0x16A0, 80);
+window.braille = charArray(0x2800, 255);
+window.katakana = charArray(0x30A0, 95);
+
 function decide(s, c, d) {
   return s[c] || s[d] || d;
 }

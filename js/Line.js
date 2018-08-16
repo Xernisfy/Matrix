@@ -6,6 +6,7 @@ class Line {
     this.delete = false;
     this.speed = random(1, config.maxLineSpeed);
     this.length = random(config.minLineLength, config.maxLineLength);
+    this.symbolIndex = random(0, 255);
     this.characters = [];
     this.characters.push(new Character(this.x, this.y, this));
   }
@@ -30,6 +31,7 @@ class Line {
           solo.splice(i, 1);
         }
       }
+      this.symbolIndex++;
       this.characters.push(new Character(this.x, this.y, this));
     } else if (this.y > 0) {
       this.removeFirst();

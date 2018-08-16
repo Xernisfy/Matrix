@@ -1,11 +1,11 @@
 (function () {
   document.addEventListener('DOMContentLoaded', function () {
-    window.urlParms = {};
+    //change default config
     if (location.href.match(/\?.*/)) {
       let urlParms = location.href.match(/\?.*/)[0].substring(1).split('&');
       for (const urlParm of urlParms) {
         let tmp = urlParm.split('=');
-        window.urlParms[tmp[0]] = tmp[1];
+        config[tmp[0]] = tmp[1];
       }
     }
     //setup
@@ -22,7 +22,7 @@
     body.appendChild(mfc);
     let imgWidth = 400;
     let imgHeight = 640;
-    if (urlParms['special'] === 'mfc') {
+    if (config.special === 'mfc') {
       config.centerText = 'Marc Friedrich Clemens';
       mfc.src = 'png/MFC.png';
       mfc.style.position = 'absolute';
@@ -39,7 +39,7 @@
       styleOnResize(html, body, [canvas, vignette]);
       solo.splice(1, 999999);
       gradients();
-      if (urlParms['special'] === 'mfc') {
+      if (config.special === 'mfc') {
         mfc.style.top = (window.innerHeight / 3) + 'px';
         mfc.style.left = (window.innerWidth / 2 - imgWidth / 2) + 'px';
       }
@@ -83,15 +83,17 @@
     // loop
     function draw() {
       // main background
+      c.save();
       c.fillStyle = mapColor(config.bgColor) + '10';
       c.fillRect(0, 0, canvas.width, canvas.height);
+      c.restore();
       // draw the main text in the center
       c.save();
       c.font = window.innerWidth / (config.centerText.length * (1 - 0.5 * config.centerSize) || 1) + 'px ' + config.centerFont;
       c.textAlign = 'center';
       c.textBaseline = 'middle';
       c.fillStyle = mapColor(config.centerColor);
-      c.fillText(config.centerText, window.innerWidth / 2, window.innerHeight / (urlParms['special'] === 'mfc' ? 4 : 2));
+      c.fillText(config.centerText, window.innerWidth / 2, window.innerHeight / (config.special === 'mfc' ? 4 : 2));
       c.restore();
       // draw the characters
       for (let i = 0; i < lines.length; i++) {

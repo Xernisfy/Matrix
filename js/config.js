@@ -1,8 +1,9 @@
-const config = {
+const defaultConfig = {
   fgColor: '0 1 0',
   bgColor: '0 0 0',
   stColor: '0.9 1 0.9',
-  characterSets: [[0x30, 0x39], [0x30a0, 0x30ff, 'mirror']],
+  chars: 'katakana',
+  randomChars: 'true',
   font: 'Consolas',
   centerText: '',
   centerFont: 'Hacked, sans-serif',
@@ -11,12 +12,14 @@ const config = {
   changeFreq: 100,
   size: 30,
   edgeBlur: 160,
-  charBlur: 10,
+  charBlur: 0,
   showFps: false,
   parallax: true,
   maxLines: 30,
   maxLineSpeed: 10,
   minLineLength: 1,
   maxLineLength: 1,
-  speed: 50
+  speed: 20,
+  special: false
 };
+let config = defaultConfig;
