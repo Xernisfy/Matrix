@@ -50,7 +50,10 @@ function styleOnResize(html, body, canvases) {
   canvases.forEach(canvas => {
     s(canvas, {
       height: window.innerHeight,
-      width: window.innerWidth
+      width: window.innerWidth,
+      style: {
+        position:'absolute'
+      }
     });
   });
 }

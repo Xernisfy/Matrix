@@ -19,25 +19,33 @@ class Character {
       return config.size;
     }
   }
-  draw() {
+  draw(g) {
     this.c.fillStyle = this.color;
     this.c.font = this.relativeSize() + 'px ' + config.font;
     if (config.charBlur > 0) {
-      this.c.shadowColor = this.color;
+      this.c.shadowColor = this.color + 'ff';
       this.c.shadowBlur = config.charBlur;
     }
     this.c.textAlign = 'center';
     this.c.fillText(this.symbol, this.x, this.y);
+    this.c.shadowColor = '#00000000';
+    if (g && config.ghostText) {
+      let imgData = g.getImageData(this.x, this.y, 1, 1).data;
+      if (imgData[3] !== 0) {
+        g.fillStyle = mapColor(config.ghostColor);
+        g.font = this.relativeSize() + 'px ' + config.font;
+        g.textAlign = 'center';
+        g.fillText(this.symbol, this.x, this.y);
+      }
+    }
   }
   setSymbol() {
     return decide({
       'latin': this.getSymbolByIndex(window.latin),
       'weird': this.getSymbolByIndex(window.weird),
       'braille': this.getSymbolByIndex(window.braille),
-      'katakana': this.getSymbolByIndex(window.katakana),
-      'mfc': this.getSymbolByIndex(['M', 'F', 'C']),
-      'holodeck': this.getSymbolByIndex(['H', 'O', 'L', 'O', 'D', 'E', 'C', 'K']),
-    }, config.chars, 'katakana');
+      'katakana': this.getSymbolByIndex(window.katakana)
+    }, config.chars, this.getSymbolByIndex(config.chars.toString().split('')));
   }
   getSymbolByIndex(chars) {
     if (!config.randomChars) {

@@ -5,14 +5,14 @@
       let urlParms = location.href.match(/\?.*/)[0].substring(1).split('&');
       for (const urlParm of urlParms) {
         let tmp = urlParm.split('=');
-        let value = undefined;
+        let value;
         if (tmp[1] === 'true') {
           value = true;
         } else if (tmp[1] === 'false') {
           value = false;
         } else if (tmp[1].includes('%')) {
           value = decodeURIComponent(tmp[1]);
-        } else if (parseInt(tmp[1])) {
+        } else if (/^\d+$/.test(tmp[1])) {
           value = parseInt(tmp[1]);
         } else {
           value = tmp[1];
@@ -27,33 +27,34 @@
     const canvas = document.createElement('canvas');
     body.appendChild(canvas);
     const c = canvas.getContext('2d');
-    window.c = c;
     const vignette = document.createElement('canvas');
     body.appendChild(vignette);
-    const mfc = document.createElement('img');
-    body.appendChild(mfc);
-    let imgWidth = 400;
-    let imgHeight = 640;
-    if (config.special === 'mfc') {
-      config.centerText = 'Marc Friedrich Clemens';
-      mfc.src = 'png/MFC.png';
-      mfc.style.position = 'absolute';
-    }
     const v = vignette.getContext('2d');
+    const ghost = document.createElement('canvas');
+    document.body.appendChild(ghost);
+    let g = ghost.getContext('2d');
+    const img = document.createElement('img');
+    body.appendChild(img);
+    if (config.special) {
+      for (const s in specials[config.special]) {
+        config[s] = specials[config.special][s];
+      }
+    }
+    if (config.special === 'mfc') {
+      img.src = 'png/MFC.png';
+      img.style.position = 'absolute';
+    }
     let lines = [];
-    window.lines = lines;
-    let solo = [];
-    window.solo = solo;
     if (config.showFps) {
       fps.toggle();
     }
     function resize() {
-      styleOnResize(html, body, [canvas, vignette]);
-      solo.splice(1, 999999);
+      styleOnResize(html, body, [canvas, vignette, ghost]);
       gradients();
+      ghostWriter();
       if (config.special === 'mfc') {
-        mfc.style.top = (window.innerHeight / 3) + 'px';
-        mfc.style.left = (window.innerWidth / 2 - imgWidth / 2) + 'px';
+        img.style.top = (window.innerHeight / 3) + 'px';
+        img.style.left = (window.innerWidth / 2 - img.width / 2) + 'px';
       }
     }
     function gradients() {
@@ -79,24 +80,27 @@
         let gradient = c.createLinearGradient.apply(c, coor[0]);
         gradient.addColorStop(0, mapColor(config.bgColor));
         gradient.addColorStop(1, mapColor(config.bgColor) + '00');
-        c.fillStyle = gradient;
-        c.fillRect.apply(c, coor[1]);
+        v.fillStyle = gradient;
+        v.fillRect.apply(v, coor[1]);
       }
+    }
+    function ghostWriter() {
+      g.font = window.innerWidth / (config.ghostText.length * (1 - 0.5 * config.ghostSize) || 1) + 'px ' + config.ghostFont;
+      g.textAlign = 'center';
+      g.textBaseline = 'middle';
+      g.fillStyle = mapColor(config.bgColor);
+      g.fillText(config.ghostText, window.innerWidth / 2, window.innerHeight / 2);
     }
     resize();
     onresize = resize;
     for (let i = 0; i < config.maxLines; i++) {
       lines.push(new Line(c));
     }
-    canvas.addEventListener('click', () => {
-      //lines.pop();
-      lines.push(new Line(c));
-    });
     // loop
     function draw() {
       // main background
       c.save();
-      c.fillStyle = mapColor(config.bgColor) + '10';
+      c.fillStyle = mapColor(config.bgColor) + fixLen(config.filterOpacity.toString(16), 2);
       c.fillRect(0, 0, canvas.width, canvas.height);
       c.restore();
       // draw the main text in the center
@@ -111,25 +115,17 @@
       for (let i = 0; i < lines.length; i++) {
         for (let j = 0; j < lines[i].speed; j++) {
           if (lines[i].delete) {
-            lines.splice(lines.indexOf(lines[i]), 1)
+            lines.splice(lines.indexOf(lines[i]), 1);
             i--;
             break;
           } else {
-            lines[i].draw();
+            lines[i].draw(g);
           }
         }
       }
-      // draw the hidden characters
-      c.save();
-      solo.forEach((character) => {
-        if (solo.length > 500) {
-          solo.shift();
-        } else {
-          character.setColor(mapColor('1 0.5 0'));
-          character.draw();
-        }
-      });
-      c.restore();
+      if (lines.length < config.maxLines) {
+        lines.push(new Line(c));
+      }
     }
     (function drawLoop(timestamp) {
       draw();
