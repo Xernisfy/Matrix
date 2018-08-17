@@ -1,7 +1,7 @@
 class Line {
   constructor(c) {
     this.c = c;
-    this.x = Math.floor(random(0, this.c.canvas.width));
+    this.x = Math.floor(random(0, this.c.canvas.width) / config.size) * config.size;
     this.y = 0;
     this.delete = false;
     this.speed = random(1, config.maxLineSpeed);
@@ -17,11 +17,11 @@ class Line {
       return config.size;
     }
   }
-  draw(g) { // draw character on canvas
+  draw(g, v) { // draw character on canvas
     this.c.save();
     this.characters.forEach((character) => {
       character.setColor(mapColor(config.fgColor));
-      character.draw(g);
+      character.draw(g, v);
     });
     this.c.restore();
     this.y += this.relativeSize();

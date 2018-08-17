@@ -34,14 +34,15 @@ let specials = {
   },
   holodeck: {
     filterOpacity: '1f',
-    maxLines: 50,
+    maxLines: 80,
     chars: 'HOLODECK',
     randomChars: false,
     ghostText: 'HOLODECK',
     ghostSize: 0.5,
     ghostColor: '0 1 0',
-    speed: 60,
-    maxLineSpeed: 4,
-    size:10
+    speed: 30,
+    maxLineSpeed: 5,
+    size: 10,
+    parallax: false
   }
 }

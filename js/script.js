@@ -24,15 +24,15 @@
     const html = document.documentElement;
     const body = document.body;
     body.style.backgroundColor = mapColor(config.bgColor);
+    const ghost = document.createElement('canvas');
+    document.body.appendChild(ghost);
+    let g = ghost.getContext('2d');
     const canvas = document.createElement('canvas');
     body.appendChild(canvas);
     const c = canvas.getContext('2d');
     const vignette = document.createElement('canvas');
     body.appendChild(vignette);
     const v = vignette.getContext('2d');
-    const ghost = document.createElement('canvas');
-    document.body.appendChild(ghost);
-    let g = ghost.getContext('2d');
     const img = document.createElement('img');
     body.appendChild(img);
     if (config.special) {
@@ -54,7 +54,7 @@
       ghostWriter();
       if (config.special === 'mfc') {
         img.style.top = (window.innerHeight / 3) + 'px';
-        img.style.left = (window.innerWidth / 2 - img.width / 2) + 'px';
+        img.style.left = (window.innerWidth / 2 - 400 / 2) + 'px';
       }
     }
     function gradients() {
@@ -119,7 +119,7 @@
             i--;
             break;
           } else {
-            lines[i].draw(g);
+            lines[i].draw(g, v);
           }
         }
       }

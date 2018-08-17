@@ -19,7 +19,7 @@ class Character {
       return config.size;
     }
   }
-  draw(g) {
+  draw(g, v) {
     this.c.fillStyle = this.color;
     this.c.font = this.relativeSize() + 'px ' + config.font;
     if (config.charBlur > 0) {
@@ -32,10 +32,10 @@ class Character {
     if (g && config.ghostText) {
       let imgData = g.getImageData(this.x, this.y, 1, 1).data;
       if (imgData[3] !== 0) {
-        g.fillStyle = mapColor(config.ghostColor);
-        g.font = this.relativeSize() + 'px ' + config.font;
-        g.textAlign = 'center';
-        g.fillText(this.symbol, this.x, this.y);
+        v.fillStyle = mapColor(config.ghostColor);
+        v.font = this.relativeSize() + 'px ' + config.font;
+        v.textAlign = 'center';
+        v.fillText(this.symbol, this.x, this.y);
       }
     }
   }
