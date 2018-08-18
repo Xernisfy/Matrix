@@ -79,7 +79,7 @@
     }
     function ghostWriter() {
       if (config.ghostImage) {
-        g.drawImage(img, window.innerWidth / 2 - img.width * window.innerHeight / 2 / img.height / 2, window.innerHeight / 3 * 2 - img.height * window.innerHeight / 2 / img.height / 2, img.width * window.innerHeight / 2 / img.height, img.height * window.innerHeight / 2 / img.height);
+        g.drawImage(img, window.innerWidth / 2 - img.width * window.innerHeight / img.height / 2, window.innerHeight / 2 - img.height * window.innerHeight / img.height / 2, img.width * window.innerHeight / img.height, img.height * window.innerHeight / img.height);
       } else {
         g.font = window.innerWidth / (config.ghostText.length * (1 - 0.5 * config.ghostSize) || 1) + 'px ' + config.ghostFont;
         g.textAlign = 'center';
@@ -130,12 +130,14 @@
         }
       } else { // create only one line per frame; stop at maximum
         if (currentMaxLines - lines.length > 0) {
-        lines.push(new Line(c));
+          lines.push(new Line(c));
         }
       }
       if (currentMaxLines < config.maxLines && random(0, 99) < config.spawnRate) {
         currentMaxLines++;
       }
+      // draw center text
+      writeCenter();
     }
     (function drawLoop(timestamp) {
       draw();
