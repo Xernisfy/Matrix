@@ -1,17 +1,18 @@
 class Line {
   constructor(c) {
     this.c = c;
-    this.delete = false;
     this.characters = [];
     this.create();
   }
-  create() {
-    this.x = Math.floor(random(0, this.c.canvas.width) / config.size) * config.size;
-    this.y = 0;
+  create() { // set default values; main use is the re-use of an old object as a new one
     this.speed = random(1, config.maxLineSpeed);
+    this.size = this.relativeSize();
+    this.x = random(1, Math.floor(this.c.canvas.width / this.size)) * this.size + this.size / 2;
+    this.y = 0;
     this.symbolIndex = random(0, 255);
     this.characters.length = 0;
     this.characters.push(new Character(this.x, this.y, this));
+    this.delete = false;
     this.erase = false;//Boolean(random(0, 99) < 20);
   }
   relativeSize() { // determine relative size to speed when parallax is active
@@ -21,15 +22,15 @@ class Line {
       return config.size;
     }
   }
-  draw(g, v) { // draw character on canvas
+  draw(g, d) { // draw character on canvas
     this.c.save();
     this.characters.forEach((character) => {
       character.setColor(mapColor(config.fgColor));
-      character.draw(g, v);
+      character.draw(g, d);
     });
     this.c.restore();
-    this.y += this.relativeSize();
-    if (this.y < this.c.canvas.height + config.size) {
+    this.y += this.size;
+    if (this.y < this.c.canvas.height + this.size) {
       this.symbolIndex++;
       if (this.characters.length > 1) {
         let swap = this.characters[0];
@@ -38,19 +39,11 @@ class Line {
       } else {
         this.characters.push(new Character(this.x, this.y, this));
       }
-      //this.removeFirst();
     } else if (this.y > 0) {
-      this.removeFirst();
+      this.characters.shift();
       if (this.characters.length === 0) {
         this.delete = true;
       }
     }
-  }
-  removeFirst() {
-    const first = this.characters[0];
-    if (first === undefined) {
-      console.log(this);
-    }
-    this.characters.shift();
   }
 }

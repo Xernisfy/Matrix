@@ -10,7 +10,7 @@ class Character {
     this.y = y;
     this.center = {
       x: this.x,
-      y: this.y - (config.size / 2)
+      y: this.y - (this.line.size / 2)
     };
     this.color = mapColor(config.stColor);
     this.symbol = this.setSymbol();
@@ -20,16 +20,9 @@ class Character {
   setColor(color) {
     this.color = color;
   }
-  relativeSize() {
-    if (config.parallax) {
-      return config.size * (this.line.speed / config.maxLineSpeed);
-    } else {
-      return config.size;
-    }
-  }
-  draw(g, v) {
+  draw(g, d) {
     this.c.fillStyle = this.color;
-    this.c.font = this.relativeSize() + 'px ' + config.font;
+    this.c.font = this.line.size + 'px ' + config.font;
     if (config.charBlur > 0) {
       this.c.shadowColor = this.color + 'ff';
       this.c.shadowBlur = config.charBlur;
@@ -37,23 +30,23 @@ class Character {
     this.c.textAlign = 'center';
     this.c.fillText(this.symbol, this.x, this.y);
     this.c.shadowColor = '#00000000';
-    if (g && !config.parallax && (config.ghostText || config.special === 'time')) {
+    if (g && (config.ghostText || config.special === 'time')) {
       let imgData = g.getImageData(this.center.x, this.center.y, 1, 1).data;
-      v.putImageData(v.createImageData(config.size, config.size), this.x - config.size / 2, this.y - config.size);
+      d.putImageData(d.createImageData(this.line.size, this.line.size), this.x - this.line.size / 2, this.y - this.line.size);
       if (imgData[3] !== 0 && !this.line.erase) {
-        v.fillStyle = mapColor(config.ghostColor);
-        v.font = this.relativeSize() + 'px ' + config.font;
-        v.textAlign = 'center';
-        v.fillText(this.symbol, this.x, this.y);
+        d.fillStyle = mapColor(config.ghostColor);
+        d.font = this.line.size + 'px ' + config.font;
+        d.textAlign = 'center';
+        d.fillText(this.symbol, this.x, this.y);
       }
     }
   }
   setSymbol() {
     return decide({
-      'latin': this.getSymbolByIndex(window.latin),
-      'weird': this.getSymbolByIndex(window.weird),
-      'braille': this.getSymbolByIndex(window.braille),
-      'katakana': this.getSymbolByIndex(window.katakana)
+      'latin': this.getSymbolByIndex(shared.latin),
+      'weird': this.getSymbolByIndex(shared.weird),
+      'braille': this.getSymbolByIndex(shared.braille),
+      'katakana': this.getSymbolByIndex(shared.katakana)
     }, config.chars, this.getSymbolByIndex(config.chars.toString().split('')));
   }
   getSymbolByIndex(chars) {

@@ -5,19 +5,17 @@
       let urlParms = location.href.match(/\?.*/)[0].substring(1).split('&');
       for (const urlParm of urlParms) {
         let tmp = urlParm.split('=');
-        let value;
         if (tmp[1] === 'true') {
-          value = true;
+          config[tmp[0]] = true;
         } else if (tmp[1] === 'false') {
-          value = false;
+          config[tmp[0]] = false;
         } else if (tmp[1].includes('%')) {
-          value = decodeURIComponent(tmp[1]);
+          config[tmp[0]] = decodeURIComponent(tmp[1]);
         } else if (/^\d+$/.test(tmp[1])) {
-          value = parseInt(tmp[1]);
+          config[tmp[0]] = parseInt(tmp[1]);
         } else {
-          value = tmp[1];
+          config[tmp[0]] = tmp[1];
         }
-        config[tmp[0]] = value;
         //overwrite with preset config
         if (tmp[0] === 'special') {
           for (const s in specials[tmp[1]]) {
@@ -27,33 +25,24 @@
       }
     }
     //setup
-    const html = document.documentElement;
-    const body = document.body;
-    body.style.backgroundColor = mapColor(config.bgColor);
-    const ghost = document.createElement('canvas');
-    document.body.appendChild(ghost);
-    let g = ghost.getContext('2d');
-    const canvas = document.createElement('canvas');
-    body.appendChild(canvas);
-    const c = canvas.getContext('2d');
-    const vignette = document.createElement('canvas');
-    body.appendChild(vignette);
-    const v = vignette.getContext('2d');
+    document.body.style.backgroundColor = mapColor(config.bgColor);
+    const [ghost, g] = createCanvas();
+    const [canvas, c] = createCanvas();
+    const [display, d] = createCanvas();
+    const [vignette, v] = createCanvas();
     const img = document.createElement('img');
-    body.appendChild(img);
+    document.body.appendChild(img);
     if (config.special === 'mfc') {
       img.src = 'png/MFC.png';
       img.style.position = 'absolute';
     }
     let lines = [];
     let currentMaxLines = 0;
-    if (config.showFps) {
-      fps.toggle();
-    }
     function resize() {
-      styleOnResize(html, body, [canvas, vignette, ghost]);
+      styleOnResize(document.documentElement, document.body, [ghost, canvas, display, vignette]);
       gradients();
       ghostWriter();
+      writeCenter();
       if (config.special === 'mfc') {
         img.style.top = (window.innerHeight / 3) + 'px';
         img.style.left = (window.innerWidth / 2 - 400 / 2) + 'px';
@@ -98,6 +87,15 @@
       g.fillStyle = mapColor(config.bgColor);
       g.fillText(config.ghostText, window.innerWidth / 2, window.innerHeight / 2);
     }
+    function writeCenter() {
+      d.save();
+      d.font = window.innerWidth / (config.centerText.length * (1 - 0.5 * config.centerSize) || 1) + 'px ' + config.centerFont;
+      d.textAlign = 'center';
+      d.textBaseline = 'middle';
+      d.fillStyle = mapColor(config.centerColor);
+      d.fillText(config.centerText, window.innerWidth / 2, window.innerHeight / (config.special === 'mfc' ? 4 : 2));
+      d.restore();
+    }
     resize();
     onresize = resize;
     // loop
@@ -109,42 +107,32 @@
       c.restore();
       if (config.special === 'time') {
         let date = new Date();
-        let time = fixLen(date.getHours(), 2) + ':' + fixLen(date.getMinutes() + ':' + fixLen(date.getSeconds(), 2));
+        let time = fixLen(date.getHours(), 2) + ':' + fixLen(date.getMinutes(), 2) + ':' + fixLen(date.getSeconds(), 2);
         g.putImageData(g.createImageData(g.canvas.width, g.canvas.height), 0, 0);
         g.font = window.innerWidth / (time.length * (1 - 0.5 * config.ghostSize) || 1) + 'px ' + config.ghostFont;
         g.fillText(time, window.innerWidth / 2, window.innerHeight / 2);
       }
-      // draw the main text in the center
-      c.save();
-      c.font = window.innerWidth / (config.centerText.length * (1 - 0.5 * config.centerSize) || 1) + 'px ' + config.centerFont;
-      c.textAlign = 'center';
-      c.textBaseline = 'middle';
-      c.fillStyle = mapColor(config.centerColor);
-      c.fillText(config.centerText, window.innerWidth / 2, window.innerHeight / (config.special === 'mfc' ? 4 : 2));
-      c.restore();
       // draw the characters
       for (let i = 0; i < lines.length; i++) {
         for (let j = 0; j < lines[i].speed; j++) {
           if (lines[i].delete) {
-            lines.splice(lines.indexOf(lines[i]), 1);
-            i--;
+            lines[i].create();
             break;
           } else {
-            lines[i].draw(g, v);
+            lines[i].draw(g, d);
           }
         }
       }
       for (let i = 0; i < currentMaxLines - lines.length; i++) {
+      //if (currentMaxLines - lines.length > 0) {
         lines.push(new Line(c));
       }
       if (currentMaxLines < config.maxLines && random(0, 99) < config.spawnRate) {
         currentMaxLines++;
-
       }
     }
     (function drawLoop(timestamp) {
       draw();
-      fps.calc(timestamp);
       //requestAnimationFrame(drawLoop);
       setTimeout(drawLoop, 1000 / (config.speed || 1));
     })();
