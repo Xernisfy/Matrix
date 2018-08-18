@@ -94,7 +94,7 @@
       d.textAlign = 'center';
       d.textBaseline = 'middle';
       d.fillStyle = mapColor(config.centerColor);
-      d.fillText(config.centerText, window.innerWidth / 2, window.innerHeight / (config.special === 'mfc' ? 4 : 2));
+      d.fillText(config.centerText, window.innerWidth / 2, window.innerHeight / (config.special === 'mfc' ? 1.2 : 2));
       d.restore();
     }
     resize();
