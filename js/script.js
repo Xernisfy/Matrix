@@ -18,6 +18,12 @@
           value = tmp[1];
         }
         config[tmp[0]] = value;
+        //overwrite with preset config
+        if (tmp[0] === 'special') {
+          for (const s in specials[tmp[1]]) {
+            config[s] = specials[tmp[1]][s];
+          }
+        }
       }
     }
     //setup
@@ -35,16 +41,12 @@
     const v = vignette.getContext('2d');
     const img = document.createElement('img');
     body.appendChild(img);
-    if (config.special) {
-      for (const s in specials[config.special]) {
-        config[s] = specials[config.special][s];
-      }
-    }
     if (config.special === 'mfc') {
       img.src = 'png/MFC.png';
       img.style.position = 'absolute';
     }
     let lines = [];
+    let currentMaxLines = 0;
     if (config.showFps) {
       fps.toggle();
     }
@@ -55,6 +57,11 @@
       if (config.special === 'mfc') {
         img.style.top = (window.innerHeight / 3) + 'px';
         img.style.left = (window.innerWidth / 2 - 400 / 2) + 'px';
+      }
+      lines.length = 0;
+      currentMaxLines = config.minLines;
+      for (let i = 0; i < currentMaxLines; i++) {
+        lines.push(new Line(c));
       }
     }
     function gradients() {
@@ -93,9 +100,6 @@
     }
     resize();
     onresize = resize;
-    for (let i = 0; i < config.maxLines; i++) {
-      lines.push(new Line(c));
-    }
     // loop
     function draw() {
       // main background
@@ -103,6 +107,13 @@
       c.fillStyle = mapColor(config.bgColor) + fixLen(config.filterOpacity.toString(16), 2);
       c.fillRect(0, 0, canvas.width, canvas.height);
       c.restore();
+      if (config.special === 'time') {
+        let date = new Date();
+        let time = fixLen(date.getHours(), 2) + ':' + fixLen(date.getMinutes() + ':' + fixLen(date.getSeconds(), 2));
+        g.putImageData(g.createImageData(g.canvas.width, g.canvas.height), 0, 0);
+        g.font = window.innerWidth / (time.length * (1 - 0.5 * config.ghostSize) || 1) + 'px ' + config.ghostFont;
+        g.fillText(time, window.innerWidth / 2, window.innerHeight / 2);
+      }
       // draw the main text in the center
       c.save();
       c.font = window.innerWidth / (config.centerText.length * (1 - 0.5 * config.centerSize) || 1) + 'px ' + config.centerFont;
@@ -123,8 +134,12 @@
           }
         }
       }
-      if (lines.length < config.maxLines) {
+      for (let i = 0; i < currentMaxLines - lines.length; i++) {
         lines.push(new Line(c));
+      }
+      if (currentMaxLines < config.maxLines && random(0, 99) < config.spawnRate) {
+        currentMaxLines++;
+
       }
     }
     (function drawLoop(timestamp) {

@@ -12,7 +12,7 @@ const defaultConfig = {
   centerSize: 1,
   ghostText: '',
   ghostFont: 'sans-serif',
-  ghostColor: '1 0 0',
+  ghostColor: '0 1 0',
   ghostSize: 1,
   changeFreq: 100,
   size: 30,
@@ -20,10 +20,10 @@ const defaultConfig = {
   charBlur: 0,
   showFps: false,
   parallax: true,
+  minLines: 10,
   maxLines: 30,
+  spawnRate: 50,
   maxLineSpeed: 10,
-  minLineLength: 1,
-  maxLineLength: 1,
   speed: 20,
   special: false
 };
@@ -33,7 +33,7 @@ let specials = {
     centerText: 'Marc Friedrich Clemens'
   },
   holodeck: {
-    filterOpacity: '1f',
+    filterOpacity: 31,
     maxLines: 80,
     chars: 'HOLODECK',
     randomChars: false,
@@ -45,4 +45,4 @@ let specials = {
     size: 10,
     parallax: false
   }
-}
+};

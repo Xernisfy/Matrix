@@ -1,14 +1,18 @@
 class Line {
   constructor(c) {
     this.c = c;
+    this.delete = false;
+    this.characters = [];
+    this.create();
+  }
+  create() {
     this.x = Math.floor(random(0, this.c.canvas.width) / config.size) * config.size;
     this.y = 0;
-    this.delete = false;
     this.speed = random(1, config.maxLineSpeed);
-    this.length = random(config.minLineLength, config.maxLineLength);
     this.symbolIndex = random(0, 255);
-    this.characters = [];
+    this.characters.length = 0;
     this.characters.push(new Character(this.x, this.y, this));
+    this.erase = false;//Boolean(random(0, 99) < 20);
   }
   relativeSize() { // determine relative size to speed when parallax is active
     if (config.parallax) {
@@ -27,15 +31,19 @@ class Line {
     this.y += this.relativeSize();
     if (this.y < this.c.canvas.height + config.size) {
       this.symbolIndex++;
-      this.characters.push(new Character(this.x, this.y, this));
+      if (this.characters.length > 1) {
+        let swap = this.characters[0];
+        this.characters[0] = this.characters[1];
+        this.characters[1] = swap.create(this.x, this.y);
+      } else {
+        this.characters.push(new Character(this.x, this.y, this));
+      }
+      //this.removeFirst();
     } else if (this.y > 0) {
       this.removeFirst();
       if (this.characters.length === 0) {
         this.delete = true;
       }
-    }
-    if (this.characters.length > this.length) {
-      this.removeFirst();
     }
   }
   removeFirst() {

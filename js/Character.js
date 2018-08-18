@@ -1,13 +1,21 @@
 class Character {
   constructor(x, y, line) {
-    this.x = x;
-    this.y = y;
     this.line = line;
     this.c = line.c;
-    this.symbol = this.setSymbol();
+    //setTimeout(this.change, random(0, 10000));
+    this.create(x, y);
+  }
+  create(x, y) {
+    this.x = x;
+    this.y = y;
+    this.center = {
+      x: this.x,
+      y: this.y - (config.size / 2)
+    };
     this.color = mapColor(config.stColor);
-    setTimeout(this.change, random(0, 10000));
+    this.symbol = this.setSymbol();
     this.draw();
+    return this;
   }
   setColor(color) {
     this.color = color;
@@ -29,9 +37,10 @@ class Character {
     this.c.textAlign = 'center';
     this.c.fillText(this.symbol, this.x, this.y);
     this.c.shadowColor = '#00000000';
-    if (g && config.ghostText) {
-      let imgData = g.getImageData(this.x, this.y, 1, 1).data;
-      if (imgData[3] !== 0) {
+    if (g && !config.parallax && (config.ghostText || config.special === 'time')) {
+      let imgData = g.getImageData(this.center.x, this.center.y, 1, 1).data;
+      v.putImageData(v.createImageData(config.size, config.size), this.x - config.size / 2, this.y - config.size);
+      if (imgData[3] !== 0 && !this.line.erase) {
         v.fillStyle = mapColor(config.ghostColor);
         v.font = this.relativeSize() + 'px ' + config.font;
         v.textAlign = 'center';
