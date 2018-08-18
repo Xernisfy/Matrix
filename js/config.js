@@ -31,6 +31,13 @@ const defaultConfig = {
 };
 let config = defaultConfig;
 let specials = {
+  eup: {
+    ghostImage: 'E+P',
+    size: 10,
+    chars: 'E+P',
+    randomChars: false,
+    parallax: false
+  },
   mfc: {
     centerText: 'MARC FRIEDRICH CLEMENS',
     centerFont: 'Consolas',
