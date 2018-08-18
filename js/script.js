@@ -79,7 +79,7 @@
     }
     function ghostWriter() {
       if (config.ghostImage) {
-        d.drawImage(img, window.innerWidth / 2 - img.width * window.innerHeight / 2 / img.height / 2, window.innerHeight / 3 * 2 - img.height * window.innerHeight / 2 / img.height / 2, img.width * window.innerHeight / 2 / img.height, img.height * window.innerHeight / 2 / img.height);
+        g.drawImage(img, window.innerWidth / 2 - img.width * window.innerHeight / 2 / img.height / 2, window.innerHeight / 3 * 2 - img.height * window.innerHeight / 2 / img.height / 2, img.width * window.innerHeight / 2 / img.height, img.height * window.innerHeight / 2 / img.height);
       } else {
         g.font = window.innerWidth / (config.ghostText.length * (1 - 0.5 * config.ghostSize) || 1) + 'px ' + config.ghostFont;
         g.textAlign = 'center';
