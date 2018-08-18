@@ -35,7 +35,7 @@
       img.onload = () => {
         ghostWriter();
       };
-      img.src = config.ghostImage;
+      img.src = 'png/' + config.ghostImage + '.png';
     }
     let lines = [];
     let currentMaxLines = 0;

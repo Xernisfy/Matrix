@@ -38,7 +38,7 @@ let specials = {
     chars: 'MFC',
     randomChars: false,
     maxLineSpeed: 2,
-    ghostImage: 'png/MFC.png'
+    ghostImage: 'MFC'
   },
   holodeck: {
     filterOpacity: 31,
