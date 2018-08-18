@@ -14,6 +14,7 @@ const defaultConfig = {
   ghostFont: 'sans-serif',
   ghostColor: '0 1 0',
   ghostSize: 1,
+  ghostImage: '',
   changeFreq: 100,
   size: 30,
   edgeBlur: 160,
@@ -21,7 +22,9 @@ const defaultConfig = {
   parallax: true,
   minLines: 10,
   maxLines: 30,
+  forceMaxLines: true,
   spawnRate: 50,
+  minLineSpeed: 1,
   maxLineSpeed: 10,
   speed: 60,
   special: false
@@ -34,7 +37,8 @@ let specials = {
     centerSize: 0.8,
     chars: 'MFC',
     randomChars: false,
-    maxLineSpeed: 2
+    maxLineSpeed: 2,
+    ghostImage: 'png/MFC.png'
   },
   holodeck: {
     filterOpacity: 31,

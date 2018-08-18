@@ -34,9 +34,11 @@ function random(min, max) {
   return Math.round(Math.random() * (max - min)) + min;
 }
 
-function createCanvas() {
+function createCanvas(hide) {
   const canvas = document.createElement('canvas');
-  document.body.appendChild(canvas);
+  if (!hide) {
+    document.body.appendChild(canvas);
+  }
   const context = canvas.getContext('2d');
   return [canvas, context];
 }

@@ -5,7 +5,7 @@ class Line {
     this.create();
   }
   create() { // set default values; main use is the re-use of an old object as a new one
-    this.speed = random(1, config.maxLineSpeed);
+    this.speed = random(config.minLineSpeed, config.maxLineSpeed);
     this.size = this.relativeSize();
     this.x = random(1, Math.floor(this.c.canvas.width / this.size)) * this.size + this.size / 2;
     this.y = 0;

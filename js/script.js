@@ -26,15 +26,16 @@
     }
     //setup
     document.body.style.backgroundColor = mapColor(config.bgColor);
-    const [ghost, g] = createCanvas();
+    const [ghost, g] = createCanvas(false);
     const [canvas, c] = createCanvas();
     const [display, d] = createCanvas();
     const [vignette, v] = createCanvas();
-    const img = document.createElement('img');
-    document.body.appendChild(img);
-    if (config.special === 'mfc') {
-      img.src = 'png/MFC.png';
-      img.style.position = 'absolute';
+    const img = new Image();
+    if (config.ghostImage) {
+      img.onload = () => {
+        ghostWriter();
+      };
+      img.src = config.ghostImage;
     }
     let lines = [];
     let currentMaxLines = 0;
@@ -43,10 +44,6 @@
       gradients();
       ghostWriter();
       writeCenter();
-      if (config.special === 'mfc') {
-        img.style.top = (window.innerHeight / 3) + 'px';
-        img.style.left = (window.innerWidth / 2 - 400 / 2) + 'px';
-      }
       lines.length = 0;
       currentMaxLines = config.minLines;
       for (let i = 0; i < currentMaxLines; i++) {
@@ -81,11 +78,15 @@
       }
     }
     function ghostWriter() {
-      g.font = window.innerWidth / (config.ghostText.length * (1 - 0.5 * config.ghostSize) || 1) + 'px ' + config.ghostFont;
-      g.textAlign = 'center';
-      g.textBaseline = 'middle';
-      g.fillStyle = mapColor(config.bgColor);
-      g.fillText(config.ghostText, window.innerWidth / 2, window.innerHeight / 2);
+      if (config.ghostImage) {
+        d.drawImage(img, window.innerWidth / 2 - img.width * window.innerHeight / 2 / img.height / 2, window.innerHeight / 3 * 2 - img.height * window.innerHeight / 2 / img.height / 2, img.width * window.innerHeight / 2 / img.height, img.height * window.innerHeight / 2 / img.height);
+      } else {
+        g.font = window.innerWidth / (config.ghostText.length * (1 - 0.5 * config.ghostSize) || 1) + 'px ' + config.ghostFont;
+        g.textAlign = 'center';
+        g.textBaseline = 'middle';
+        g.fillStyle = mapColor(config.bgColor);
+        g.fillText(config.ghostText, window.innerWidth / 2, window.innerHeight / 2);
+      }
     }
     function writeCenter() {
       d.save();
@@ -123,9 +124,14 @@
           }
         }
       }
-      for (let i = 0; i < currentMaxLines - lines.length; i++) {
-      //if (currentMaxLines - lines.length > 0) {
+      if (config.forceMaxLines) { // create lines until maximum is reached
+        for (let i = 0; i < currentMaxLines - lines.length; i++) {
+          lines.push(new Line(c));
+        }
+      } else { // create only one line per frame; stop at maximum
+        if (currentMaxLines - lines.length > 0) {
         lines.push(new Line(c));
+        }
       }
       if (currentMaxLines < config.maxLines && random(0, 99) < config.spawnRate) {
         currentMaxLines++;

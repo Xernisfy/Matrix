@@ -8,10 +8,6 @@ class Character {
   create(x, y) {
     this.x = x;
     this.y = y;
-    this.center = {
-      x: this.x,
-      y: this.y - (this.line.size / 2)
-    };
     this.color = mapColor(config.stColor);
     this.symbol = this.setSymbol();
     this.draw();
@@ -31,7 +27,7 @@ class Character {
     this.c.fillText(this.symbol, this.x, this.y);
     this.c.shadowColor = '#00000000';
     if (g && (config.ghostText || config.special === 'time')) {
-      let imgData = g.getImageData(this.center.x, this.center.y, 1, 1).data;
+      let imgData = g.getImageData(this.x, this.y - (this.line.size / 2), 1, 1).data;
       d.putImageData(d.createImageData(this.line.size, this.line.size), this.x - this.line.size / 2, this.y - this.line.size);
       if (imgData[3] !== 0 && !this.line.erase) {
         d.fillStyle = mapColor(config.ghostColor);
