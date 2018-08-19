@@ -40,7 +40,7 @@ class Character {
   setSymbol() {
     return decide({
       'latin': this.getSymbolByIndex(shared.latin),
-      'weird': this.getSymbolByIndex(shared.weird),
+      'futhark': this.getSymbolByIndex(shared.futhark),
       'braille': this.getSymbolByIndex(shared.braille),
       'katakana': this.getSymbolByIndex(shared.katakana)
     }, config.chars, this.getSymbolByIndex(config.chars.toString().split('')));

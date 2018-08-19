@@ -15,7 +15,6 @@ const defaultConfig = {
   ghostColor: '0 1 0',
   ghostSize: 1,
   ghostImage: '',
-  changeFreq: 100,
   size: 30,
   edgeBlur: 160,
   charBlur: 0,
@@ -45,7 +44,10 @@ let specials = {
     chars: 'MFC',
     randomChars: false,
     maxLineSpeed: 2,
-    ghostImage: 'MFC'
+    ghostImage: 'MFC',
+    parallax: false,
+    size: 4,
+    maxLines: 100
   },
   holodeck: {
     filterOpacity: 31,
@@ -55,14 +57,12 @@ let specials = {
     ghostText: 'HOLODECK',
     ghostSize: 0.5,
     ghostColor: '0 1 0',
-    speed: 60,
     maxLineSpeed: 5,
     size: 10,
     parallax: false
   },
   time: {
     size: 20,
-    speed: 60,
     chars: '0123456789',
     parallax :  false,
     filterOpacity: 127,

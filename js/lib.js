@@ -9,7 +9,7 @@ function charArray(start, length) {
 }
 
 shared.latin = charArray(0x0041, 26);
-shared.weird = charArray(0x16A0, 80);
+shared.futhark = charArray(0x16A0, 80);
 shared.braille = charArray(0x2800, 255);
 shared.katakana = charArray(0x30A0, 95);
 
