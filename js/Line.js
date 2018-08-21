@@ -13,7 +13,7 @@ class Line {
     this.characters.length = 0;
     this.characters.push(new Character(this.x, this.y, this));
     this.delete = false;
-    this.erase = false;//Boolean(random(0, 99) < 20);
+    this.erase = Boolean(random(0, 99) < config.eraseRate);
   }
   relativeSize() { // determine relative size to speed when parallax is active
     if (config.parallax) {

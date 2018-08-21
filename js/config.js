@@ -22,6 +22,7 @@ const defaultConfig = {
   minLines: 10,
   maxLines: 30,
   forceMaxLines: true,
+  eraseRate: 0,
   spawnRate: 50,
   minLineSpeed: 1,
   maxLineSpeed: 10,
@@ -59,7 +60,8 @@ let specials = {
     ghostColor: '0 1 0',
     maxLineSpeed: 5,
     size: 10,
-    parallax: false
+    parallax: false,
+    eraseRate: 50
   },
   time: {
     size: 20,
