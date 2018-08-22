@@ -2,7 +2,6 @@ class Character {
   constructor(x, y, line) {
     this.line = line;
     this.c = line.c;
-    //setTimeout(this.change, random(0, 10000));
     this.create(x, y);
   }
   create(x, y) {
@@ -50,18 +49,6 @@ class Character {
       return chars[this.line.symbolIndex % chars.length];
     } else {
       return chars[random(0, chars.length - 1)];
-    }
-  }
-  fadeOut() {
-    let hexCode = '#';
-    for (let i = 1; i < 6; i += 2) {
-      let tmp = parseInt(this.color.substr(i, 2), 16);
-      hexCode += tmp > 0 ? fixLen((tmp - 1).toString(16), 2) : '00';
-    }
-    if (hexCode === '#000000') {
-      this.list.remove(this);
-    } else {
-      this.color = hexCode;
     }
   }
 }
