@@ -38,18 +38,6 @@ let specials = {
     randomChars: false,
     parallax: false
   },
-  mfc: {
-    centerText: 'MARC FRIEDRICH CLEMENS',
-    centerFont: 'Consolas',
-    centerSize: 0.8,
-    chars: 'MFC',
-    randomChars: false,
-    maxLineSpeed: 2,
-    ghostImage: 'MFC',
-    parallax: false,
-    size: 4,
-    maxLines: 100
-  },
   holodeck: {
     filterOpacity: 31,
     maxLines: 40,
@@ -62,6 +50,23 @@ let specials = {
     size: 10,
     parallax: false,
     eraseRate: 50
+  },
+  mfc: {
+    centerText: 'MARC FRIEDRICH CLEMENS',
+    centerFont: 'Consolas',
+    centerSize: 0.8,
+    chars: 'MFC',
+    randomChars: false,
+    maxLineSpeed: 2,
+    ghostImage: 'MFC',
+    parallax: false,
+    size: 4,
+    maxLines: 100
+  },
+  mosaic: {
+    chars: '? ',
+    parallax: false,
+    size: 8
   },
   time: {
     size: 20,
