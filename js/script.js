@@ -1,5 +1,7 @@
 (function () {
   document.addEventListener('DOMContentLoaded', function () {
+    // "global" variable declaration
+    let lines, currentMaxLines, date, time;
     //change default config
     if (location.href.match(/\?.*/)) {
       let urlParms = location.href.match(/\?.*/)[0].substring(1).split('&');
@@ -37,8 +39,8 @@
       };
       img.src = 'png/' + config.ghostImage + '.png';
     }
-    let lines = [];
-    let currentMaxLines = 0;
+    lines = [];
+    currentMaxLines = 0;
     function resize() {
       styleOnResize(document.documentElement, document.body, [ghost, canvas, display, vignette]);
       gradients();
@@ -97,8 +99,18 @@
       d.fillText(config.centerText, window.innerWidth / 2, window.innerHeight / (config.special === 'mfc' ? 1.2 : 2));
       d.restore();
     }
+    function writeTime() {
+      date = new Date();
+      time = fixLen(date.getHours(), 2) + ':' + fixLen(date.getMinutes(), 2) + ':' + fixLen(date.getSeconds(), 2);
+      g.putImageData(g.createImageData(g.canvas.width, g.canvas.height), 0, 0);
+      g.font = window.innerWidth / (time.length * (1 - 0.5 * config.ghostSize) || 1) + 'px ' + config.ghostFont;
+      g.fillText(time, window.innerWidth / 2, window.innerHeight / 2);
+    }
     resize();
     onresize = resize;
+    if (config.special === 'time') {
+      setInterval(writeTime, 1000);
+    }
     // loop
     function draw() {
       // main background
@@ -106,13 +118,6 @@
       c.fillStyle = mapColor(config.bgColor) + fixLen(config.filterOpacity.toString(16), 2);
       c.fillRect(0, 0, canvas.width, canvas.height);
       c.restore();
-      if (config.special === 'time') {
-        let date = new Date();
-        let time = fixLen(date.getHours(), 2) + ':' + fixLen(date.getMinutes(), 2) + ':' + fixLen(date.getSeconds(), 2);
-        g.putImageData(g.createImageData(g.canvas.width, g.canvas.height), 0, 0);
-        g.font = window.innerWidth / (time.length * (1 - 0.5 * config.ghostSize) || 1) + 'px ' + config.ghostFont;
-        g.fillText(time, window.innerWidth / 2, window.innerHeight / 2);
-      }
       // draw the characters
       for (let i = 0; i < lines.length; i++) {
         for (let j = 0; j < lines[i].speed; j++) {
