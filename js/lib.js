@@ -1,3 +1,4 @@
+'use strict';
 window.shared = {};
 
 function charArray(start, length) {
@@ -12,6 +13,7 @@ shared.latin = charArray(0x0041, 26);
 shared.futhark = charArray(0x16A0, 80);
 shared.braille = charArray(0x2800, 255);
 shared.katakana = charArray(0x30A0, 95);
+shared.hwkatakana = charArray(0xFF65, 59);
 
 function decide(s, c, d) {
   return s[c] || s[d] || d;

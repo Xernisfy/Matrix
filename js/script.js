@@ -1,4 +1,5 @@
 (function () {
+  'use strict';
   document.addEventListener('DOMContentLoaded', function () {
     //change default config
     if (location.href.match(/\?.*/)) {
@@ -35,7 +36,7 @@
       img.onload = () => {
         ghostWriter();
       };
-      img.src = 'png/' + config.ghostImage + '.png';
+      img.src = config.ghostImage;
     }
     let lines = [];
     let currentMaxLines = 0;
@@ -145,6 +146,16 @@
       setTimeout(drawLoop, 1000 / (config.speed || 1));
     })();
   });
+  let thread = new Thread([
+    'addEventListener(\'message\', (e) => {',
+      'console.log(e.data);',
+      'postMessage([\'receive\']);',
+    '});'
+  ]);
+  thread.addEventListener('message', (e) => {
+    console.log(e.data);
+  });
+  thread.postMessage('[send]');
   window.wallpaperPropertyListener = {
     applyUserProperties: (properties) => {
       const event = new CustomEvent('propertyChange', properties);

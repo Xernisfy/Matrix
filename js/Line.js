@@ -1,3 +1,4 @@
+'use strict';
 class Line {
   constructor(c) {
     this.c = c;

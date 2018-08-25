@@ -1,3 +1,4 @@
+'use strict';
 const defaultConfig = {
   fgColor: '0 1 0',
   bgColor: '0 0 0',
@@ -64,7 +65,7 @@ let specials = {
     maxLines: 100
   },
   mosaic: {
-    chars: '? ',
+    chars: '▮ ',
     parallax: false,
     size: 8
   },
