@@ -17,6 +17,7 @@ const defaultConfig = {
   ghostSize: 1,
   ghostImage: '',
   size: 30,
+  screens: 1,
   edgeBlur: 160,
   charBlur: 0,
   parallax: true,

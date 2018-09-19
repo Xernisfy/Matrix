@@ -82,7 +82,14 @@
     }
     function ghostWriter() {
       if (config.ghostImage) {
-        g.drawImage(img, window.innerWidth / 2 - img.width * window.innerHeight / img.height / 2, window.innerHeight / 2 - img.height * window.innerHeight / img.height / 2, img.width * window.innerHeight / img.height, img.height * window.innerHeight / img.height);
+        for (let s = 0; s < config.screens; s++) {
+          g.drawImage(
+            img,
+            (window.innerWidth / config.screens * s) / 2 - img.width * window.innerHeight / img.height / 2,
+            window.innerHeight / 2 - img.height * window.innerHeight / img.height / 2,
+            img.width * window.innerHeight / img.height,
+            img.height * window.innerHeight / img.height);
+        }
       } else {
         g.font = window.innerWidth / (config.ghostText.length * (1 - 0.5 * config.ghostSize) || 1) + 'px ' + config.ghostFont;
         g.textAlign = 'center';
@@ -151,6 +158,7 @@
       setTimeout(drawLoop, 1000 / (config.speed || 1));
     })();
   });
+  /*
   let thread = new Thread([
     'addEventListener(\'message\', (e) => {',
       'console.log(e.data);',
@@ -166,4 +174,5 @@
       const event = new CustomEvent('propertyChange', properties);
     }
   };
+  */
 })();
