@@ -82,7 +82,7 @@
     }
     function ghostWriter() {
       if (config.ghostImage) {
-        for (let s = 0; s < config.screens; s++) {
+        for (let s = 1; s < config.screens + 1; s++) {
           g.drawImage(
             img,
             (window.innerWidth / config.screens * s) / 2 - img.width * window.innerHeight / img.height / 2,
