@@ -28,7 +28,9 @@ class Character {
     this.c.shadowColor = '#00000000';
     if (g && (config.ghostText || config.ghostImage || config.special === 'time')) {
       let imgData = g.getImageData(this.x, this.y - (this.line.size / 2), 1, 1).data;
-      d.putImageData(d.createImageData(this.line.size, this.line.size), this.x - this.line.size / 2, this.y - this.line.size);
+      if (config.overwrite) {
+        d.clearRect(this.x - this.line.size / 2, this.y - this.line.size, this.line.size, this.line.size);
+      }
       if (imgData[3] !== 0 && !this.line.erase) {
         d.fillStyle = mapColor(config.ghostColor);
         d.font = this.line.size + 'px ' + config.font;

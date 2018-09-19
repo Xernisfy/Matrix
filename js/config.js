@@ -25,6 +25,7 @@ const defaultConfig = {
   maxLines: 30,
   forceMaxLines: true,
   eraseRate: 0,
+  overwrite: true,
   spawnRate: 50,
   minLineSpeed: 1,
   maxLineSpeed: 10,
@@ -62,6 +63,7 @@ let specials = {
     parallax: false,
     edgeBlur: 0,
     maxLines: 40,
+    overwrite: true,
     ghostImage: 'png/E+P.png'
   },
   mfc: {
