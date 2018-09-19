@@ -82,13 +82,18 @@
     }
     function ghostWriter() {
       if (config.ghostImage) {
-        for (let s = 1; s < config.screens + 1; s++) {
+        let multiWidth = window.innerWidth / config.screens;
+        //let multiHeight = window.innerHeight / config.screens;
+        for (let s = 0; s < config.screens; s++) {
+          let sepWidth = multiWith * (s + 1);
+          let sepHeight = multiHeight * (s + 1);
           g.drawImage(
             img,
-            (window.innerWidth / config.screens * s) / 2 - img.width * window.innerHeight / img.height / 2,
+            (multiWidth * s) + ((sepWidth) / 2 - img.width * window.innerHeight / img.height / 2),
             window.innerHeight / 2 - img.height * window.innerHeight / img.height / 2,
             img.width * window.innerHeight / img.height,
-            img.height * window.innerHeight / img.height);
+            img.height * window.innerHeight / img.height
+          );
         }
       } else {
         g.font = window.innerWidth / (config.ghostText.length * (1 - 0.5 * config.ghostSize) || 1) + 'px ' + config.ghostFont;
