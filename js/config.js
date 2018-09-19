@@ -35,7 +35,7 @@ const defaultConfig = {
 let config = defaultConfig;
 let specials = {
   eup: {
-    ghostImage: 'E+P',
+    ghostImage: 'png/E+P.png',
     size: 10,
     chars: 'E+P',
     randomChars: false,
@@ -53,6 +53,16 @@ let specials = {
     size: 10,
     parallax: false,
     eraseRate: 50
+  },
+  holoeup: {
+    filterOpacity: 20,
+    screens: 4,
+    size: 16,
+    chars: 'EUP',
+    parallax: false,
+    edgeBlur: 0,
+    maxLines: 40,
+    ghostImage: 'png/E+P.png'
   },
   mfc: {
     centerText: 'MARC FRIEDRICH CLEMENS',
