@@ -85,8 +85,8 @@
         let multiWidth = window.innerWidth / config.screens;
         //let multiHeight = window.innerHeight / config.screens;
         for (let s = 0; s < config.screens; s++) {
-          let sepWidth = multiWith * (s + 1);
-          let sepHeight = multiHeight * (s + 1);
+          let sepWidth = multiWidth * (s + 1);
+          //let sepHeight = multiHeight * (s + 1);
           g.drawImage(
             img,
             (multiWidth * s) + ((sepWidth) / 2 - img.width * window.innerHeight / img.height / 2),
