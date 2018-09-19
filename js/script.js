@@ -92,7 +92,7 @@
           //let sepHeight = multiHeight * (s + 1);
           g.drawImage(
             img,
-            (multiWidth * s) + (multiwidth / 2 - img.width * window.innerHeight / img.height / 2),
+            (multiWidth * s) + (multiWidth / 2 - img.width * window.innerHeight / img.height / 2),
             window.innerHeight / 2 - img.height * window.innerHeight / img.height / 2,
             img.width * window.innerHeight / img.height,
             img.height * window.innerHeight / img.height
