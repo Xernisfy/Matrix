@@ -33,6 +33,7 @@
     const [canvas, c] = createCanvas();
     const [display, d] = createCanvas();
     const [vignette, v] = createCanvas();
+    const [copyright, r] = createCanvas();
     const img = new Image();
     if (config.ghostImage) {
       img.onload = () => {
@@ -43,10 +44,13 @@
     lines = [];
     currentMaxLines = 0;
     function resize() {
-      styleOnResize(document.documentElement, document.body, [ghost, canvas, display, vignette]);
+      styleOnResize(document.documentElement, document.body, [ghost, canvas, display, vignette, copyright]);
       gradients();
       ghostWriter();
       writeCenter();
+      if (config.free) {
+        writeCopyright();
+      }
       lines.length = 0;
       currentMaxLines = config.minLines;
       for (let i = 0; i < currentMaxLines; i++) {
@@ -118,6 +122,11 @@
       g.putImageData(g.createImageData(g.canvas.width, g.canvas.height), 0, 0);
       g.font = window.innerWidth / (time.length * (1 - 0.5 * config.ghostSize) || 1) + 'px ' + config.ghostFont;
       g.fillText(time, window.innerWidth / 2, window.innerHeight / 2);
+    }
+    function writeCopyright() {
+      r.font = '60px sans-serif';
+      r.fillStyle = '#ffffff7f';
+      r.fillText('Copyright Arno Klein 2018', 40, window.innerHeight - 40);
     }
     resize();
     onresize = resize;

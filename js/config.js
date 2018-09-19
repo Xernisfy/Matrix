@@ -29,7 +29,8 @@ const defaultConfig = {
   minLineSpeed: 1,
   maxLineSpeed: 10,
   speed: 60,
-  special: false
+  special: false,
+  free: true
 };
 let config = defaultConfig;
 let specials = {
