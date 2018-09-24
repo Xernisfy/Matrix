@@ -30,7 +30,7 @@ const defaultConfig = {
   minLineSpeed: 1,
   maxLineSpeed: 10,
   speed: 60,
-  special: holoeup,
+  special: 'holoeup',
   free: false
 };
 let config = defaultConfig;
