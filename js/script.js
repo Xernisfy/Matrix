@@ -27,12 +27,6 @@
         }
       }
     }
-    //overwrite with preset config
-    if (tmp[0] === 'special') {
-      for (const s in specials[tmp[1]]) {
-        config[s] = specials[tmp[1]][s];
-      }
-    }
     //setup
     document.body.style.backgroundColor = mapColor(config.bgColor);
     const [ghost, g] = createCanvas(false);
