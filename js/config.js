@@ -58,7 +58,8 @@ let specials = {
   holoeup: {
     filterOpacity: 20,
     screens: 4,
-    size: 16,
+    size: 4,
+    speed: 20,
     chars: 'EUP',
     parallax: false,
     edgeBlur: 0,
