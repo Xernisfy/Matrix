@@ -67,6 +67,18 @@ let specials = {
     overwrite: true,
     ghostImage: 'png/E+P.png'
   },
+  holoepg: {
+    filterOpacity: 20,
+    screens: 4,
+    size: 12,
+    speed: 20,
+    chars: 'EPG',
+    parallax: false,
+    edgeBlur: 0,
+    maxLines: 40,
+    overwrite: true,
+    ghostImage: 'png/EPG.png'
+  },
   mfc: {
     centerText: 'MARC FRIEDRICH CLEMENS',
     centerFont: 'Consolas',
