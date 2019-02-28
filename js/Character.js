@@ -40,12 +40,7 @@ class Character {
     }
   }
   setSymbol() {
-    return decide({
-      'latin': this.getSymbolByIndex(shared.latin),
-      'futhark': this.getSymbolByIndex(shared.futhark),
-      'braille': this.getSymbolByIndex(shared.braille),
-      'katakana': this.getSymbolByIndex(shared.katakana)
-    }, config.chars, this.getSymbolByIndex(config.chars.toString().split('')));
+    return this.getSymbolByIndex(shared[config.chars] || config.chars.toString().split(''));
   }
   getSymbolByIndex(chars) {
     if (!config.randomChars) {
